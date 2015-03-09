@@ -1,18 +1,50 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<script src="js/mail-generator.js"></script>
-		<link href="css/style.css" rel="stylesheet" media="screen">
-    <script>
-      window.onload = function(){
-        // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
-        // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
-        
-      };
-    </script>
-	</head>
-	<body>
-		<div class="container" id="main">
-			Build Me!
-		</div>
-	</body>
+    <head>
+        <script type="text/javascript" src="js/mail-generator.js"> </script>
+        <script type="text/javascript"> 
+        window.onload = function() {
+            
+            setInterval(function () {
+                window.geemails.unshift(getNewMessage());
+                var tableContent="<tr><th>Date</th><th>Sender</th><th>Subject</th></tr>";
+                window.geemails.forEach(function(mail){
+                    tableContent+="<tr><td>" +mail.date+"</td><td>"+mail.sender+"</td><td>"+mail.subject+"</td></tr>"
+                    });
+                document.getElementById("content").innerHTML=tableContent;
+                document.getElementById("count").innerHTML="Total: "+window.geemails.length;
+
+                var table=document.getElementById("content")
+                var rows=table.getElementsByTagName("tr")
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].onclick = (function() { 
+                        var cnt = i; 
+                        return function() {
+                            alert(window.geemails[cnt].body);
+                        }       
+                    })(i);
+                }
+            }, 1000);
+
+ 
+            
+
+            }
+
+
+        </script>
+        <link rel="stylesheet" href="css/style.css" media="screen" type="text/css"/>
+        <meta charset="utf-8">
+        <title>GeeMail</title>
+    </head>
+    <body>
+        <div class="header">
+            <h1>GeeMail</h1>
+        </div>
+        <div class="container">
+            <p id="count"></p> 
+            <table style="width:100%" id="content" class="gridtable">
+            </table> 
+        </div>
+    </body>
 </html>
